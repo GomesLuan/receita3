@@ -12,48 +12,40 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: const Text("Dicas"),),
+        appBar: NewAppBar(),
         body: DataBodyWidget(objects: [
           "La Fin Du Monde - Bock - 65 ibu",
           "Sapporo Premiume - Sour Ale - 54 ibu",
           "Duvel - Pilsner - 82 ibu"
         ]),
-        bottomNavigationBar: NewNavBar(),
+        bottomNavigationBar: NewNavBar(icons: [
+          Icon(Icons.coffee_outlined),
+          Icon(Icons.local_drink_outlined),
+          Icon(Icons.flag_outlined),
+        ]),
       )
     );
   }
 }
 
-class NewNavBar extends StatelessWidget {
-  NewNavBar();
-
-  void botaoFoiTocado(int index) {
-    print("Tocaram no botão $index");
-  }
+class NewAppBar extends StatelessWidget implements PreferredSizeWidget {
+  NewAppBar();
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(onTap: botaoFoiTocado, items: const [
-      BottomNavigationBarItem(
-        label: "Cafés",
-        icon: Icon(Icons.coffee_outlined),
-      ),
-      BottomNavigationBarItem(
-        label: "Cervejas", 
-        icon: Icon(Icons.local_drink_outlined)
-      ),
-      BottomNavigationBarItem(
-        label: "Nações", 
-        icon: Icon(Icons.flag_outlined)
-      )
-    ]);
+    return AppBar(
+      title: Text("Dicas"),
+    );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
 class DataBodyWidget extends StatelessWidget {
   final List<String> objects;
 
-  DataBodyWidget( {this.objects = const [] });
+  DataBodyWidget({this.objects = const [] });
 
   @override
   Widget build(BuildContext context) {
@@ -62,5 +54,26 @@ class DataBodyWidget extends StatelessWidget {
         child: Center(child: Text(obj)),
       )
     ).toList());
+  }
+}
+
+class NewNavBar extends StatelessWidget {
+  final List<Icon> icons;
+  
+  NewNavBar({this.icons = const [] });
+
+  void botaoFoiTocado(int index) {
+    print("Tocaram no botão $index");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      onTap: botaoFoiTocado, 
+      items: icons.map((e) => BottomNavigationBarItem(
+        icon: e,
+        label: 'Ícone ${icons.indexOf(e)}',
+      )).toList()
+    );
   }
 }

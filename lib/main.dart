@@ -28,18 +28,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class NewAppBar extends StatelessWidget implements PreferredSizeWidget {
-  NewAppBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text("Dicas"),
-    );
-  }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+class NewAppBar extends AppBar{
+  NewAppBar():super(
+    title: Text("Dicas"),
+    actions: [ PopupMenuButton(
+      itemBuilder: (context) => [
+        PopupMenuItem<int>(
+          value: 0,
+          child: Text("Azul"),
+        ),
+        PopupMenuItem<int>(
+          value: 1,
+          child: Text("Roxo"),
+        ),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Text("Verde"),
+        ),
+      ]
+    )]
+  );
 }
 
 class DataBodyWidget extends StatelessWidget {
